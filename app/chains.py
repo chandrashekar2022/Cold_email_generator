@@ -32,7 +32,7 @@ class Chain:
             except OutputParserException:
               raise OutputParserException("Context too big. Unable to parse jobs.")
             return res if isinstance(res,list) else [res]
-
+#Prompt for writing email
     def write_mail(self,job,links):
         prompt_email = PromptTemplate.from_template(
             """ 
