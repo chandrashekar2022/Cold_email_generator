@@ -8,7 +8,9 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 
 # Install the dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+python -m pytest &&\
+rm -rf /root/.cache/pip
 
 # Copy the application code into the container
 COPY . /app
