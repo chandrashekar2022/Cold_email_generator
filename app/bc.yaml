@@ -1,0 +1,26 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: cold-email-generator
+  labels:
+    app: cold-email-generator
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/chandrashekar2022/Cold_email_generator.git
+    contextDir: app  # Points to the app directory containing Dockerfile and requirements.txt
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile  # Since we're already in app directory context
+  output:
+    to:
+      kind: ImageStreamTag
+      name: cold-email-generator:latest
+  triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: your-webhook-secret
+    - type: ImageChange
