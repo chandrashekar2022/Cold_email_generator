@@ -9,7 +9,7 @@ load_dotenv()
 
 class Chain:
     def __init__(self):
-        self.llm = ChatGroq(temperature=0,groq_api_key=os.getenv("GROQ_API_KEY"),model_name="llama-3.1-70b-versatile")
+        self.llm = ChatGroq(temperature=0,groq_api_key=os.getenv("GROQ_API_KEY"),model_name="compound-beta")
 
     def extract_jobs(self,cleaned_text):
             prompt_extract=PromptTemplate.from_template(
@@ -42,7 +42,7 @@ class Chain:
             ### INSTRUCTION:
 
             You are Chandra Shekar, a AI/ML Engineer at Conduent.  Reach out to HR to express interest in the Job Position at this Company. 
-            With 5 years of experience in this Field/Relevant Skills, express that I am confident that my background aligns well with the requirements of this role.
+            With 5 years of experience in this Field/Relevant Skills, express that I am confident that my background aligns well with the requirements.txt of this role.
             if HR could consider referring me for this opportunity. 
             I'm enthusiastic about the possibility of contributing to this specific Company and would appreciate any support HR can offer in this process.
             Your job is to write a cold email to the HR regarding the job mentioned above and asking for the referral for this position.

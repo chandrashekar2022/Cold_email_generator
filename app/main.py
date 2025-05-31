@@ -7,22 +7,29 @@ from utils import clean_text
 
 def create_streamlit_app(llm,portfolio,clean_text):
  st.title("✉️Cold Mail Generator")
- url_input=st.text_input("Enter a URL:",value="https://www.dice.com/job-detail/33eb2e26-038d-4494-9926-dcbacd8b38ba?src=32&utm_source=appcast&utm_medium=aggregator&utm_campaign=linkedin-dice-paid&utm_term=K-Tek%20Resourcing%20LLC&utm_content=vp-linkedin-slots_most-recent&ccuid=57537563444&_ccid=1724697438697ibda0qnw7")
- submit_button=st.button("Submit")
+ # Prompt user to enter a URL (no default)
+ url_input = st.text_input("Enter a URL:")
+
+# Button to trigger processing
+ submit_button = st.button("Submit")
 
  if submit_button:
-    try:
-        loader=WebBaseLoader([url_input])
-        data=clean_text(loader.load().pop().page_content)
-        portfolio.load_portfolio()
-        jobs=llm.extract_jobs(data)
-        for job in jobs:
-            skills=job.get('skills',[])
-            links=portfolio.query_links(skills)
-            email=llm.write_mail(job,links)
-            st.code(email,language='markdown')
-    except Exception as e:
-        st.error(f"An Error Occurred: {e}")
+        if not url_input.strip():
+            st.warning("Please enter a valid URL before submitting.")
+        else:
+            try:
+                loader = WebBaseLoader([url_input])
+                data = clean_text(loader.load().pop().page_content)
+                portfolio.load_portfolio()
+                jobs = llm.extract_jobs(data)
+
+                for job in jobs:
+                    skills = job.get('skills', [])
+                    links = portfolio.query_links(skills)
+                    email = llm.write_mail(job, links)
+                    st.code(email, language='markdown')
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
 
 if __name__=="__main__":
     chain=Chain()
